@@ -22,6 +22,60 @@ public class User implements UserDetails {
     private String email;
     private String userface;
     private Timestamp regTime;
+    private String introduction;
+    private Long praise_sum;
+    private Long collect_sum;
+    private String attention_ids;
+    private String be_attention_ids;
+    private String attention_qids;
+
+    public String getIntroduction() {
+        return introduction;
+    }
+
+    public void setIntroduction(String introduction) {
+        this.introduction = introduction;
+    }
+
+    public Long getPraise_sum() {
+        return praise_sum;
+    }
+
+    public void setPraise_sum(Long praise_sum) {
+        this.praise_sum = praise_sum;
+    }
+
+    public Long getCollect_sum() {
+        return collect_sum;
+    }
+
+    public void setCollect_sum(Long collect_sum) {
+        this.collect_sum = collect_sum;
+    }
+
+    public String getAttention_ids() {
+        return attention_ids;
+    }
+
+    public void setAttention_ids(String attention_ids) {
+        this.attention_ids = attention_ids;
+    }
+
+    public String getBe_attention_ids() {
+        return be_attention_ids;
+    }
+
+    public void setBe_attention_ids(String be_attention_ids) {
+        this.be_attention_ids = be_attention_ids;
+    }
+
+    public String getAttention_qids() {
+        return attention_qids;
+    }
+
+    public void setAttention_qids(String attention_qids) {
+        this.attention_qids = attention_qids;
+    }
 
     public Timestamp getRegTime() {
         return regTime;

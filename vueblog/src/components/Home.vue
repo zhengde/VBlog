@@ -1,7 +1,7 @@
 <template>
   <el-container class="home_container">
     <el-header>
-      <div class="home_title">V部落博客管理平台</div>
+      <div class="home_title">IT社会化问答平台</div>
       <div class="home_userinfoContainer">
         <el-dropdown @command="handleCommand">
   <span class="el-dropdown-link home_userinfo">
@@ -60,6 +60,7 @@
   export default{
     methods: {
       handleCommand(command){
+        console.log(command)
         var _this = this;
         if (command == 'logout') {
           this.$confirm('注销登录吗?', '提示', {
