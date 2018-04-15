@@ -27,7 +27,7 @@
         @keyup.enter.native="handleInputConfirm"
         @blur="handleInputConfirm">
       </el-input>
-      <el-button v-else class="button-new-tag" type="primary" size="small" @click="showInput">+Tag</el-button>
+      <!--<el-button v-else class="button-new-tag" type="primary" size="small" @click="showInput">+Tag</el-button>-->
     </el-header>
     <el-main class="main">
       <div id="editor">
@@ -37,8 +37,8 @@
       <div style="display: flex;align-items: center;margin-top: 15px;justify-content: flex-end">
         <el-button @click="cancelEdit" v-if="from!=undefined">放弃修改</el-button>
         <template v-if="from==undefined || from=='draft'">
-          <el-button @click="saveBlog(0)">保存到草稿箱</el-button>
-          <el-button type="primary" @click="saveBlog(1)">发表文章</el-button>
+          <el-button type="primary" @click="saveBlog(1)">提问</el-button>
+          <!--<el-button @click="saveBlog(0)" >保存到草稿箱</el-button>-->
         </template>
         <template v-else="from==post">
           <el-button type="primary" @click="saveBlog(1)">保存修改</el-button>

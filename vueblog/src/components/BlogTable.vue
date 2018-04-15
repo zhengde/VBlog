@@ -18,8 +18,9 @@
       </el-input>
       <el-button type="primary" icon="el-icon-search" size="mini" style="margin-left: 3px" @click="searchClick">搜索
       </el-button>
+      <el-button type="primary" size="mini" style="margin-left: 3px" @click="questClick">提问
+      </el-button>
     </div>
-    <!--<div style="width: 100%;height: 1px;background-color: #20a0ff;margin-top: 8px;margin-bottom: 0px"></div>-->
     <el-table
       ref="multipleTable"
       :data="articles"
@@ -28,8 +29,8 @@
       max-height="390"
       @selection-change="handleSelectionChange" v-loading="loading">
       <el-table-column
-        type="selection"
         width="35" align="left" v-if="showEdit || showDelete">
+        <!--type="selection"-->
       </el-table-column>
       <el-table-column
         label="标题"
@@ -38,24 +39,26 @@
         </template>
       </el-table-column>
       <el-table-column
-        label="最近编辑时间" width="140" align="left">
-        <template slot-scope="scope">{{ scope.row.editTime | formatDateTime}}</template>
+        prop="cateName"
+        label="所属话题"
+        width="120" align="left">
       </el-table-column>
       <el-table-column
         prop="nickname"
-        label="作者"
+        label="题主"
         width="120" align="left">
       </el-table-column>
       <el-table-column
-        prop="cateName"
-        label="所属分类"
-        width="120" align="left">
+        label="创建时间" width="140" align="left">
+        <template slot-scope="scope">{{ scope.row.editTime | formatDateTime}}</template>
       </el-table-column>
-      <el-table-column label="操作" align="left" v-if="showEdit || showDelete">
+      <!--<el-table-column label="操作" align="left" v-if="showEdit || showDelete">-->
+      <el-table-column label="操作" align="left" >
         <template slot-scope="scope">
           <el-button
             size="mini"
-            @click="handleEdit(scope.$index, scope.row)" v-if="showEdit">编辑
+            @click="handleEdit(scope.$index, scope.row)">编辑
+            <!--@click="handleEdit(scope.$index, scope.row)" v-if="showEdit">编辑-->
           </el-button>
           <el-button
             size="mini"
@@ -66,10 +69,10 @@
       </el-table-column>
     </el-table>
     <div class="blog_table_footer">
-      <el-button type="danger" size="mini" style="margin: 0px;" v-show="this.articles.length>0 && showDelete"
-                 :disabled="this.selItems.length==0" @click="deleteMany">批量删除
-      </el-button>
-      <span></span>
+      <!--<el-button type="danger" size="mini" style="margin: 0px;" v-show="this.articles.length>0 && showDelete"-->
+                 <!--:disabled="this.selItems.length==0" @click="deleteMany">批量删除-->
+      <!--</el-button>-->
+      <!--<span></span>-->
       <el-pagination
         background
         :page-size="pageSize"
@@ -83,8 +86,6 @@
 <script>
   import {putRequest} from '../utils/api'
   import {getRequest} from '../utils/api'
-//  import Vue from 'vue'
-//  var bus = new Vue()
 
   export default{
     data() {
@@ -110,6 +111,9 @@
       })
     },
     methods: {
+      questClick(){
+        this.$router.push({path: '/editBlog'});
+      },
       searchClick(){
         this.loadBlogs(1, this.pageSize);
       },
