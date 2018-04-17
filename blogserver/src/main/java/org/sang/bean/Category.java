@@ -8,6 +8,7 @@ import java.sql.Timestamp;
 public class Category {
     private Long id;
     private String cateName;
+    private Long parent_id;
     private Timestamp date;
 
     public Category() {
@@ -35,5 +36,13 @@ public class Category {
 
     public void setCateName(String cateName) {
         this.cateName = cateName;
+    }
+
+    public Long getParentId() {
+        return parent_id;
+    }
+
+    public void setParentId(Long parent_id) {
+        this.parent_id = parent_id;
     }
 }

@@ -15,7 +15,7 @@ import java.util.List;
  * 超级管理员专属Controller
  */
 @RestController
-@RequestMapping("/admin/category")
+@RequestMapping("/category")
 public class CategoryController {
     @Autowired
     CategoryService categoryService;

@@ -138,4 +138,9 @@ public class ArticleService {
     public List<Integer> getDataStatistics() {
         return articleMapper.getDataStatistics(Util.getCurrentUser().getId());
     }
+
+    public List<Article> getArticleByCid(Integer page, Integer count, String cid) {
+        int start = (page - 1) * count;
+        return articleMapper.getArticleByCid(start, count, cid);
+    }
 }

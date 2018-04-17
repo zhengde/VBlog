@@ -35,4 +35,7 @@ public interface ArticleMapper {
     List<String> getCategories(Long uid);
 
     List<Integer> getDataStatistics(Long uid);
+
+    List<Article> getArticleByCid(@Param("start")Integer start, @Param("count")Integer count, @Param("cid")String cid);
+
 }

@@ -9,17 +9,15 @@
     data() {
       return {
         formTreeData: [],
-
         data: [],
-
       };
     },
     mounted: function () {
       var _this = this;
-      getRequest("/topic").then(resp => {
+      getRequest("/category/all").then(resp => {
         if (resp.status == 200) {
-           let a = _this.getData(resp.data, 'parentId', 'id');
-           console.log(a)
+          let a = _this.getData(resp.data, 'parentId', 'id');
+          console.log(a)
           _this.formTreeData = a;
         }
       }).catch(err => {
@@ -29,12 +27,10 @@
 
     methods: {
       handleNodeClick(data) {
-        // todo 跳转
-        console.log(data)
+        this.$router.replace({path: '/articleList',query : { cid : data.info.id}});
       },
 
-      // formTreeData,
-      getData :function (data, parentId, childId) {
+      getData: function (data, parentId, childId) {
         var tree = [];
         var tmp = {};
         //分离出父节点
@@ -48,7 +44,7 @@
           } else {
             tree.push({
               info: i,
-              label: i.name,
+              label: i.cateName,
               //nodes : []
             });
           }
@@ -67,7 +63,7 @@
             delete tmp[parentId];
             for (var i = 0; i < tmp_.length; i++) {
               var node = {
-                label: tmp_[i].name,
+                label: tmp_[i].cateName,
                 info: tmp_[i]
               };
               cnodes = resFn(tmp_[i][childId], tmp);
@@ -93,7 +89,6 @@
 
     }
   }
-
 
 
 </script>

@@ -40,7 +40,8 @@ export default new Router({
           name: '问题列表',
           component: ArticleList,
           meta: {
-            keepAlive: true
+            // 设置页面缓存
+            // keepAlive: true
           }
         }
       ]

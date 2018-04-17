@@ -37,6 +37,13 @@
         </if>
         ORDER BY a.editTime DESC limit #{start},#{count};
     </select>
+
+    <select id="getArticleByCid" resultType="org.sang.bean.Article">
+        SELECT a.id,a.`title`,a.`editTime`,a.cid,a.`pageView`,a.`state`,u.`nickname`,c.`cateName`,a.uid FROM article a join user u on a.uid = u.id
+        join category c on a.cid = c.id
+        where cid = #{cid}
+        ORDER BY a.editTime DESC limit #{start},#{count};
+    </select>
     <select id="getArticleByStateByAdmin" resultType="org.sang.bean.Article">
         SELECT a.id,a.`title`,a.`editTime`,a.`pageView`,a.`state`,u.`nickname`,c.`cateName`,a.uid FROM article a,user
         u,category c WHERE a.`cid`=c.`id` AND a.`uid`=u.`id` and a.state=1
@@ -55,7 +62,7 @@
                 AND uid=#{uid}
             </if>
             <if test="keywords!=null">
-                AND title LIKE concat('%',#{keywords},'%')
+                AND title LIKE concat('%',#{keywords},'%') OR cid =  #{keywords}
             </if>
         </where>
     </select>
