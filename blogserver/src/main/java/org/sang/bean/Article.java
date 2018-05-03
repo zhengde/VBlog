@@ -23,6 +23,15 @@ public class Article {
     private String cateName;
     private List<Tags> tags;
     private String stateStr;
+    private int status;
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
 
     public String getStateStr() {
         return stateStr;

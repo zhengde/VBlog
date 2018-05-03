@@ -143,4 +143,8 @@ public class ArticleService {
         int start = (page - 1) * count;
         return articleMapper.getArticleByCid(start, count, cid);
     }
+
+    public boolean remove(Long aid) {
+        return articleMapper.remove(aid);
+    }
 }

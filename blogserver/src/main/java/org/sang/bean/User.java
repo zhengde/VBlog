@@ -28,6 +28,15 @@ public class User implements UserDetails {
     private String attention_ids;
     private String be_attention_ids;
     private String attention_qids;
+    private int status;
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
 
     public String getIntroduction() {
         return introduction;

@@ -1,4 +1,4 @@
-<style type="text/css">
+<style type="text/css" xmlns:background-color="http://www.w3.org/1999/xhtml">
   .blog_table_footer {
     display: flex;
     box-sizing: content-box;
@@ -52,13 +52,15 @@
         label="创建时间" width="140" align="left">
         <template slot-scope="scope">{{ scope.row.editTime | formatDateTime}}</template>
       </el-table-column>
-      <!--<el-table-column label="操作" align="left" v-if="showEdit || showDelete">-->
       <el-table-column label="操作" align="left">
         <template slot-scope="scope">
           <el-button
             size="mini"
-            @click="handleEdit(scope.$index, scope.row)">编辑
-            <!--@click="handleEdit(scope.$index, scope.row)" v-if="showEdit">编辑-->
+            @click="handleEdit(scope.$index, scope.row)">
+            <div>
+              <span v-show="!scope.row.forcus">关注问题</span>
+              <span v-show="scope.row.forcus" style="color:#00BFFF;">已关注</span>
+            </div>
           </el-button>
           <el-button
             size="mini"
@@ -84,12 +86,17 @@
 </template>
 
 <script>
+  import {getRequest} from '../utils/api';
+  import ElButton from "element-ui/packages/button/src/button";
+  import {postRequest} from '../utils/api'
   import {putRequest} from '../utils/api'
-  import {getRequest} from '../utils/api'
+  import {deleteRequest} from '../utils/api'
 
   export default {
     data() {
       return {
+        attentionId: [],
+        flag: false,
         articles: [],
         selItems: [],
         loading: false,
@@ -104,6 +111,7 @@
       var _this = this;
       this.loading = true;
       this.loadBlogs(1, this.pageSize);
+      this.attention();
       var _this = this;
       window.bus.$on('blogTableReload', function () {
         _this.loading = true;
@@ -111,6 +119,31 @@
       });
     },
     methods: {
+      attention() {
+        var _this = this;
+        getRequest('/currentUserName').then(resp => {
+          if (resp.status === 200) {
+            return resp.data;
+          }
+          // 获取该用户是否已关注过该问题，是则取消关注，否则关注
+        }).then(username => {
+          getRequest('/loadAttention', {
+            username,
+          }).then(resp => {
+            if (resp.status === 200) {
+              var data = resp.data.attention_qids;
+              _this.attentionId = data.split(",");
+              for (var i = 0; i < _this.articles.length; i++) {
+                if (_this.attentionId.indexOf(_this.articles[i].id + "") + 1) {
+                  _this.articles[i].forcus = true;
+                } else {
+                  _this.articles[i].forcus = false;
+                }
+              }
+            }
+          })
+        })
+      },
       questClick() {
         this.$router.push({path: '/editBlog'});
       },
@@ -149,6 +182,9 @@
         getRequest(url).then(resp => {
           _this.loading = false;
           if (resp.status == 200) {
+            resp.data.articles.forEach(function (obj) {
+              obj.forcus = false;
+            });
             _this.articles = resp.data.articles;
             _this.totalCount = resp.data.totalCount;
           } else {
@@ -171,7 +207,31 @@
         this.selItems = val;
       },
       handleEdit(index, row) {
-        this.$router.push({path: '/editBlog', query: {from: this.activeName, id: row.id}});
+        var _this = this;
+        var url = '/currentUserName';
+        getRequest(url).then(resp => {
+          if (resp.status === 200) {
+            return resp.data;
+          }
+          // 获取该用户是否已关注过该问题，是则取消关注，否则关注
+        }).then(username => {
+          getRequest('/isAttention', {
+            username,
+            aid: row.id
+          }).then(resp => {
+            if (resp.status === 200) {
+              var data = resp.data;
+              this.attentionId = data.split(",");
+              for (var i = 0; i < _this.articles.length; i++) {
+                if (_this.attentionId.indexOf(_this.articles[i].id + "") + 1) {
+                  _this.articles[i].forcus = true;
+                } else {
+                  _this.articles[i].forcus = false;
+                }
+              }
+            }
+          })
+        })
       },
       handleDelete(index, row) {
         this.dustbinData.push(row.id);

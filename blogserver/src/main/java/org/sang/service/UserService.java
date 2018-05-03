@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -93,5 +94,47 @@ public class UserService implements UserDetailsService {
 
     public User getUserById(Long id) {
         return userMapper.getUserById(id);
+    }
+
+
+    public String isAttention(String username, Long aid) {
+        User user = userMapper.loadUserByNickname(username);
+        String aids = user.getAttention_qids();
+        String[] aidArray = aids.split(",");
+
+        String resultAids = "";
+        boolean flag = false;
+        // 判断是否关注过某问题
+        for (int i = 0; i < aidArray.length; i++) {
+            if (aid.toString().equals(aidArray[i])) {
+                flag = true;
+            } else {
+                resultAids = resultAids.concat("," + aidArray[i]);
+            }
+        }
+        if (flag) {
+            // 取消关注
+            if (resultAids.indexOf(",") == 0) {
+                userMapper.attention(username, resultAids.substring(1, resultAids.length()));
+            } else {
+                userMapper.attention(username, resultAids);
+            }
+
+            return resultAids;
+        } else {
+            // 关注问题
+            aids = aids.concat("," + aid.toString());
+            if (aids.indexOf(",") == 0) {
+                userMapper.attention(username, aids.substring(1, aids.length()));
+            } else {
+                userMapper.attention(username, aids);
+            }
+
+            return aids;
+        }
+    }
+
+    public User loadUserByNickname(String nickname) {
+        return userMapper.loadUserByNickname(nickname);
     }
 }

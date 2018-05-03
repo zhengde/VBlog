@@ -32,4 +32,9 @@ public interface UserMapper {
     int setUserRoles(@Param("rids") Long[] rids, @Param("id") Long id);
 
     User getUserById(@Param("id") Long id);
+
+//    void attention(String nickname,/*@Param("attention_qids") */String attention_qids);
+    void attention(@Param("nickname")String nickname,@Param("aids") String aids);
+
+    User loadUserByNickname(String nickname);
 }

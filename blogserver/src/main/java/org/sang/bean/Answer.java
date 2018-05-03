@@ -2,12 +2,28 @@ package org.sang.bean;
 
 public class Answer {
     private Long id;
+    private Long aid;
     private Long uid;
-    private String t_id;
     private int status;
-    private String type;
+    private String content;
     private Long praise_num;
     private Long collect_num;
+
+    public Long getAid() {
+        return aid;
+    }
+
+    public void setAid(Long aid) {
+        this.aid = aid;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 
     public Long getId() {
         return id;
@@ -25,28 +41,12 @@ public class Answer {
         this.uid = uid;
     }
 
-    public String getT_id() {
-        return t_id;
-    }
-
-    public void setT_id(String t_id) {
-        this.t_id = t_id;
-    }
-
     public int getStatus() {
         return status;
     }
 
     public void setStatus(int status) {
         this.status = status;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public Long getPraise_num() {

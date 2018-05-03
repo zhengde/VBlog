@@ -1,23 +1,6 @@
 <template>
   <el-container v-loading="loading" class="post-article">
     <el-header class="header">
-      <el-select v-model="article.cid" placeholder="请选择所属话题" style="width: 150px;">
-        <el-option
-          v-for="item in categories"
-          :key="item.id"
-          :label="item.cateName"
-          :value="item.id">
-        </el-option>
-      </el-select>
-      <el-input v-model="article.title" placeholder="请输入标题..." style="width: 400px;margin-left: 10px"></el-input>
-      <el-tag
-        :key="tag"
-        v-for="tag in article.dynamicTags"
-        closable
-        :disable-transitions="false"
-        @close="handleClose(tag)" style="margin-left: 10px">
-        {{tag}}
-      </el-tag>
       <el-input
         class="input-new-tag"
         v-if="tagInputVisible"
@@ -27,7 +10,6 @@
         @keyup.enter.native="handleInputConfirm"
         @blur="handleInputConfirm">
       </el-input>
-      <!--<el-button v-else class="button-new-tag" type="primary" size="small" @click="showInput">+Tag</el-button>-->
     </el-header>
     <el-main class="main">
       <div id="editor">
@@ -37,11 +19,7 @@
       <div style="display: flex;align-items: center;margin-top: 15px;justify-content: flex-end">
         <el-button @click="cancelEdit" v-if="from!=undefined">放弃修改</el-button>
         <template v-if="from==undefined || from=='draft'">
-          <el-button type="primary" @click="saveBlog(1)">提问</el-button>
-          <!--<el-button @click="saveBlog(0)" >保存到草稿箱</el-button>-->
-        </template>
-        <template v-else="from==post">
-          <el-button type="primary" @click="saveBlog(1)">保存修改</el-button>
+          <el-button type="primary" @click="submit">回答</el-button>
         </template>
       </div>
     </el-main>
@@ -91,6 +69,9 @@
       mavonEditor
     },
     methods: {
+      submit(){
+
+      },
       cancelEdit(){
         this.$router.go(-1)
       },
@@ -146,7 +127,7 @@
       },
       getCategories(){
         let _this = this;
-        getRequest("/category/all").then(resp=> {
+        getRequest("/admin/category/all").then(resp=> {
           _this.categories = resp.data;
         });
       },

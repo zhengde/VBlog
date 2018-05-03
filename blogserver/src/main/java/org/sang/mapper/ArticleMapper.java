@@ -38,4 +38,6 @@ public interface ArticleMapper {
 
     List<Article> getArticleByCid(@Param("start")Integer start, @Param("count")Integer count, @Param("cid")String cid);
 
+    boolean remove(Long aid);
+
 }

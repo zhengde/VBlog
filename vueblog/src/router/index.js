@@ -7,7 +7,7 @@ import ArticleList from '@/components/ArticleList'
 // import CateMana from '@/components/CateMana'
 // import DataCharts from '@/components/DataCharts'
 import PostArticle from '@/components/PostArticle'
-// import UserMana from '@/components/UserMana'
+import Answer from '@/components/Answer'
 import BlogDetail from '@/components/BlogDetail'
 import Topic from '@/components/Topic'
 
@@ -95,6 +95,14 @@ export default new Router({
       path: '/editBlog',
       name: '编辑博客',
       component: PostArticle,
+      hidden: true,
+      meta: {
+        keepAlive: false
+      }
+    },{
+      path: '/answer',
+      name: '回答',
+      component: Answer,
       hidden: true,
       meta: {
         keepAlive: false

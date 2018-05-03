@@ -1,6 +1,5 @@
 <template>
   <el-tree :data="formTreeData" @node-click="handleNodeClick"></el-tree>
-
 </template>
 <script>
   import {getRequest} from '../utils/api'
@@ -14,6 +13,7 @@
     },
     mounted: function () {
       var _this = this;
+      // 请求话题数据
       getRequest("/category/all").then(resp => {
         if (resp.status == 200) {
           let a = _this.getData(resp.data, 'parentId', 'id');

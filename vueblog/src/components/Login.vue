@@ -47,7 +47,7 @@
             //成功
             var json = resp.data;
             if (json.status == 'success') {
-              _this.$router.replace({path: '/home'});
+              _this.$router.replace({path: '/articleList'});
             } else {
               _this.$alert('登录失败!', '失败!');
             }

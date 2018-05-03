@@ -5,6 +5,7 @@ import org.sang.service.UserService;
 import org.sang.utils.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,11 +47,30 @@ public class UserController {
         return false;
     }
 
-    @RequestMapping(value = "/updateUserEmail",method = RequestMethod.PUT)
+
+    @RequestMapping(value = "/updateUserEmail", method = RequestMethod.PUT)
     public RespBean updateUserEmail(String email) {
         if (userService.updateUserEmail(email) == 1) {
             return new RespBean("success", "开启成功!");
         }
         return new RespBean("error", "开启失败!");
+    }
+
+    /**
+     * 是否关注某一问题，是则取消关注，否则关注
+     *
+     * @param username
+     * @param aid
+     * @return
+     */
+    @RequestMapping(value = "/isAttention", method = RequestMethod.GET)
+    public String isAttention(String username, Long aid) {
+        return userService.isAttention(username, aid);
+    }
+
+
+    @RequestMapping(value = "/loadAttention", method = RequestMethod.GET)
+    public UserDetails loadAttention(String username) {
+        return userService.loadUserByNickname(username);
     }
 }
