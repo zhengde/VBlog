@@ -55,9 +55,10 @@
 </template>
 <script>
   import {getRequest} from '../utils/api'
-  export default{
+
+  export default {
     methods: {
-      handleCommand(command){
+      handleCommand(command) {
         console.log(command)
         var _this = this;
         if (command == 'logout') {
@@ -72,6 +73,8 @@
           }, function () {
             //取消
           })
+        } else {
+          this.$router.replace({path: '/user',query:{id: this.id}});
         }
       }
     },
@@ -82,10 +85,14 @@
       }, function (msg) {
         _this.currentUserName = '游客';
       });
+      getRequest('/currentUserId').then(resp=>{
+        _this.id = resp.data;
+      })
     },
-    data(){
+    data() {
       return {
-        currentUserName: ''
+        currentUserName: '',
+        id: 0
       }
     }
   }

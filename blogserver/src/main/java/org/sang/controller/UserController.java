@@ -1,11 +1,13 @@
 package org.sang.controller;
 
 import org.sang.bean.RespBean;
+import org.sang.bean.User;
 import org.sang.service.UserService;
 import org.sang.utils.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -73,4 +75,17 @@ public class UserController {
     public UserDetails loadAttention(String username) {
         return userService.loadUserByNickname(username);
     }
+
+    @RequestMapping(value = "/attentionUser", method = RequestMethod.POST)
+    public String attentionUser(Long uid) {
+        return userService.attentionUser(uid);
+    }
+
+    @RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
+    public User getUserById(@PathVariable Long id) {
+        return userService.getUserById(id);
+    }
+
+
+
 }

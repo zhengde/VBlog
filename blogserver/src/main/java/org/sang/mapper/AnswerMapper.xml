@@ -3,6 +3,11 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.sang.mapper.AnswerMapper">
+    <!--根据 uid 查询该用户所有回答过的问题数据-->
+    <select id="getAnswerByUid" resultType="org.sang.bean.Answer">
+      SELECT id,uid,tid,aid,content,praise_num,collect_num FROM answer
+      WHERE uid = #{uid} AND status = 1
+    </select>
     <!--获取某一问题的所有答案-->
     <select id="getAnswerByAid" resultType="org.sang.bean.Answer">
       SELECT id,uid,content,praise_num,collect_num FROM answer

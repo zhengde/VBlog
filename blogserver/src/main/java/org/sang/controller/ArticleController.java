@@ -42,7 +42,6 @@ public class ArticleController {
         if (result == 1) {
             return new RespBean("success", article.getId() + "");
         } else {
-//            return new RespBean("error", article.getState() == 0 ? "文章保存失败!" : "文章发表失败!");
             return new RespBean("error", "提问失败");
         }
     }
@@ -166,4 +165,24 @@ public class ArticleController {
         map.put("ds", dataStatistics);
         return map;
     }
+
+    /**
+     * 根据提问问题ids，关注问题 ids，查询对应的问题数据
+     *
+     * @param questionIds   提问问题的ids
+     * @param attentionQids 关注问题的ids
+     */
+    @RequestMapping(value = "/getArticlesByIds", method = RequestMethod.GET)
+    public Map getArticlesByIds(@RequestParam String questionIds, @RequestParam String attentionQids) {
+        Map<String, Object> map = new HashMap<>();
+        String[] questionIdsArray = questionIds.split(",");
+        String[] attentionQidsArray = attentionQids.split(",");
+        List<Article> questionArticles = articleService.getArticleByIds(questionIdsArray);
+        List<Article> attentionArticles = articleService.getArticleByIds(attentionQidsArray);
+        map.put("questionArticles", questionArticles);
+        map.put("attentionArticles", attentionArticles);
+        return map;
+    }
+
+
 }

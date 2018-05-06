@@ -36,4 +36,8 @@ public class CategoryService {
         category.setDate(new Timestamp(System.currentTimeMillis()));
         return categoryMapper.addCategory(category);
     }
+
+    public List<Category> getCategoriesByIds(String[] ids) {
+        return categoryMapper.getCategoriesByIds(ids);
+    }
 }

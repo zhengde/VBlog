@@ -4,16 +4,10 @@ import org.sang.bean.Category;
 import org.sang.bean.RespBean;
 import org.sang.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-/**
- * 超级管理员专属Controller
- */
 @RestController
 @RequestMapping("/category")
 public class CategoryController {
@@ -51,4 +45,17 @@ public class CategoryController {
         }
         return new RespBean("error", "修改失败!");
     }
+
+    /**
+     * 根据话题 ids 查询话题数据
+     * @param ids
+     * @return
+     */
+    @RequestMapping(value = "/getCategoriesByIds", method = RequestMethod.GET)
+    public List<Category> getCategoriesByIds(@RequestParam String ids) {
+        String[] idArray = ids.split(",");
+        return categoryService.getCategoriesByIds(idArray);
+    }
+
+
 }

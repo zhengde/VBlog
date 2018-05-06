@@ -27,7 +27,26 @@ public class User implements UserDetails {
     private Long collect_sum;
     private String attention_ids;
     private String be_attention_ids;
+    private String question_ids;
     private String attention_qids;
+
+    public String getAttention_cids() {
+        return attention_cids;
+    }
+
+    public void setAttention_cids(String attention_cids) {
+        this.attention_cids = attention_cids;
+    }
+
+    public String getQuestion_ids() {
+        return question_ids;
+    }
+
+    public void setQuestion_ids(String question_ids) {
+        this.question_ids = question_ids;
+    }
+
+    private String attention_cids;
     private int status;
 
     public int getStatus() {

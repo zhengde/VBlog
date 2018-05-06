@@ -40,4 +40,5 @@ public interface ArticleMapper {
 
     boolean remove(Long aid);
 
+    List<Article> getArticlesByIds(@Param("ids")String[] ids);
 }

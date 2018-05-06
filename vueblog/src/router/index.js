@@ -4,12 +4,11 @@ import Login from '@/components/Login'
 import Registry from '@/components/Registry'
 import Home from '@/components/Home'
 import ArticleList from '@/components/ArticleList'
-// import CateMana from '@/components/CateMana'
-// import DataCharts from '@/components/DataCharts'
 import PostArticle from '@/components/PostArticle'
 import Answer from '@/components/Answer'
 import BlogDetail from '@/components/BlogDetail'
 import Topic from '@/components/Topic'
+import User from '@/components/User'
 
 Vue.use(Router)
 
@@ -107,6 +106,14 @@ export default new Router({
       meta: {
         keepAlive: false
       }
+    }, {
+      path: '/user',
+      name: '个人主页',
+      component: User,
+      hidden: true,
+      meta: {
+        keepAlive: false
+      }
     }
     // , {
     //   path: '/home',
@@ -118,31 +125,6 @@ export default new Router({
     //       iconCls: 'fa fa-user-o',
     //       name: '用户管理',
     //       component: UserMana
-    //     }
-    //   ]
-    // }, {
-    //   path: '/home',
-    //   component: Home,
-    //   name: '栏目管理',
-    //   children: [
-    //     {
-    //       path: '/cateMana',
-    //       iconCls: 'fa fa-reorder',
-    //       name: '栏目管理',
-    //       component: CateMana
-    //     }
-    //   ]
-    // }, {
-    //   path: '/home',
-    //   component: Home,
-    //   name: '数据统计',
-    //   iconCls: 'fa fa-bar-chart',
-    //   children: [
-    //     {
-    //       path: '/charts',
-    //       iconCls: 'fa fa-bar-chart',
-    //       name: '数据统计',
-    //       component: DataCharts
     //     }
     //   ]
     // }

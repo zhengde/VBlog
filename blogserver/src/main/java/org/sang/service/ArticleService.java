@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -24,7 +23,7 @@ public class ArticleService {
     TagsMapper tagsMapper;
 
     public int addNewArticle(Article article) {
-        //处理文章摘要
+        //处理问题摘要
         if (article.getSummary() == null || "".equals(article.getSummary())) {
             //直接截取
             String stripHtml = stripHtml(article.getHtmlContent());
@@ -90,10 +89,10 @@ public class ArticleService {
         return content;
     }
 
-    public List<Article> getArticleByState(Integer state, Integer page, Integer count,String keywords) {
+    public List<Article> getArticleByState(Integer state, Integer page, Integer count, String keywords) {
         int start = (page - 1) * count;
         Long uid = Util.getCurrentUser().getId();
-        return articleMapper.getArticleByState(state, start, count, uid,keywords);
+        return articleMapper.getArticleByState(state, start, count, uid, keywords);
     }
 
 //    public List<Article> getArticleByStateByAdmin(Integer page, Integer count,String keywords) {
@@ -101,8 +100,8 @@ public class ArticleService {
 //        return articleMapper.getArticleByStateByAdmin(start, count,keywords);
 //    }
 
-    public int getArticleCountByState(Integer state, Long uid,String keywords) {
-        return articleMapper.getArticleCountByState(state, uid,keywords);
+    public int getArticleCountByState(Integer state, Long uid, String keywords) {
+        return articleMapper.getArticleCountByState(state, uid, keywords);
     }
 
     public int updateArticleState(Long[] aids, Integer state) {
@@ -125,6 +124,7 @@ public class ArticleService {
 
     /**
      * 获取最近七天的日期
+     *
      * @return
      */
     public List<String> getCategories() {
@@ -133,6 +133,7 @@ public class ArticleService {
 
     /**
      * 获取最近七天的数据
+     *
      * @return
      */
     public List<Integer> getDataStatistics() {
@@ -146,5 +147,9 @@ public class ArticleService {
 
     public boolean remove(Long aid) {
         return articleMapper.remove(aid);
+    }
+
+    public List<Article> getArticleByIds(String[] ids) {
+        return articleMapper.getArticlesByIds(ids);
     }
 }

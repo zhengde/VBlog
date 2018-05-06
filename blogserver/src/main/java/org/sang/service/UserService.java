@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -136,5 +135,37 @@ public class UserService implements UserDetailsService {
 
     public User loadUserByNickname(String nickname) {
         return userMapper.loadUserByNickname(nickname);
+    }
+
+    public String attentionUser(Long uid) {
+        String usersid = userMapper.getUserById(uid).getAttention_ids();
+        String[] userArray = usersid.split(",");
+
+        String result = "";
+        boolean flag = false;
+        // 判断是否关注过此用户
+        for (int i = 0; i < userArray.length; i++) {
+            if (uid.toString().equals(userArray[i])) {
+                flag = true;
+            } else {
+                result = result.concat("," + userArray[i]);
+            }
+        }
+        if (flag) {
+            // 取消关注用户
+            if (result.indexOf(",") == 0) {
+                return userMapper.attentionUser(result.substring(1, result.length()));
+            } else {
+                return userMapper.attentionUser(result);
+            }
+        } else {
+            // 关注用户
+            usersid = usersid.concat("" + uid.toString());
+            if (usersid.indexOf(",") == 0){
+                return userMapper.attentionUser(usersid.substring(1,usersid.length()));
+            }else {
+                return userMapper.attentionUser(usersid);
+            }
+        }
     }
 }

@@ -18,4 +18,6 @@ public interface CategoryMapper {
     int updateCategoryById(Category category);
 
     int addCategory(Category category);
+
+    List<Category> getCategoriesByIds(@Param("ids") String[] ids);
 }
