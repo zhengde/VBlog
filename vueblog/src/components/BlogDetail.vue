@@ -26,9 +26,9 @@
       </div>
     </el-col>
     <el-col align="left">
-      <el-button @click="attention">关注问题</el-button>
+      <!--<el-button @click="attention">关注问题</el-button>-->
       <el-button @click="answer">回答问题</el-button>
-      <!--todo 删除功能测试完成后改成 this.activeName=='江南一点雨 -->
+      <!--【todo】 删除功能测试完成后改成 this.activeName=='江南一点雨 -->
       <el-button @click="removeAnswer" v-if="this.activeName!='江南一点雨'?true:false">删除问题</el-button>
     </el-col>
     <el-col>
@@ -76,9 +76,7 @@
       goBack() {
         this.$router.go(-1);
       },
-      attention() {
-        // todo button显示「已关注」，再点一次恢复原样式。修改 user 表的关注字段
-
+     /* attention() {
         let button = document.getElementById('praise');
         if (this.num % 2 == 0) {
           console.log(num + '====已关注===');
@@ -88,7 +86,7 @@
           button.value = '关注问题';
         }
         this.num++;
-      },
+      },*/
       answer(id) {
         this.$router.push({path: '/answer'});
       },

@@ -137,8 +137,9 @@ public class UserService implements UserDetailsService {
         return userMapper.loadUserByNickname(nickname);
     }
 
-    public String attentionUser(Long uid) {
-        String usersid = userMapper.getUserById(uid).getAttention_ids();
+    public void attentionUser(Long id, Long uid) {
+        // 获取该用户已经关注的用户id
+        String usersid = userMapper.getUserById(id).getAttention_ids();
         String[] userArray = usersid.split(",");
 
         String result = "";
@@ -154,17 +155,17 @@ public class UserService implements UserDetailsService {
         if (flag) {
             // 取消关注用户
             if (result.indexOf(",") == 0) {
-                return userMapper.attentionUser(result.substring(1, result.length()));
+                userMapper.attentionUser(id, result.substring(1, result.length()));
             } else {
-                return userMapper.attentionUser(result);
+                userMapper.attentionUser(id, result);
             }
         } else {
             // 关注用户
-            usersid = usersid.concat("" + uid.toString());
+            usersid = usersid.concat("," + uid.toString());
             if (usersid.indexOf(",") == 0){
-                return userMapper.attentionUser(usersid.substring(1,usersid.length()));
+                userMapper.attentionUser(id, usersid.substring(1,usersid.length()));
             }else {
-                return userMapper.attentionUser(usersid);
+                userMapper.attentionUser(id, usersid);
             }
         }
     }

@@ -5,7 +5,7 @@
 <mapper namespace="org.sang.mapper.UserMapper">
     <!--关注用户-->
     <update id="attentionUser">
-
+      UPDATE user SET attention_ids = #{uids} WHERE id = #{id}
     </update>
     <!--关注问题-->
     <update id="attention">

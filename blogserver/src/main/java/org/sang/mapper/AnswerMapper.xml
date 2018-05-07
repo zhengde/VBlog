@@ -5,18 +5,19 @@
 <mapper namespace="org.sang.mapper.AnswerMapper">
     <!--根据 uid 查询该用户所有回答过的问题数据-->
     <select id="getAnswerByUid" resultType="org.sang.bean.Answer">
-      SELECT id,uid,tid,aid,content,praise_num,collect_num FROM answer
+      SELECT * FROM answer
       WHERE uid = #{uid} AND status = 1
     </select>
     <!--获取某一问题的所有答案-->
     <select id="getAnswerByAid" resultType="org.sang.bean.Answer">
-      SELECT id,uid,content,praise_num,collect_num FROM answer
+      SELECT * FROM answer
       WHERE aid = #{aid} AND status = 1
     </select>
-    <!--点赞数 +1-->
+    <!--点赞数 +1 todo 未验证-->
     <update id="praise">
         UPDATE answer SET praise_num = praise_num+1 WHERE id = #{id}
     </update>
+    <!--  以下全都不是正确的  -->
     <insert id="addNewArticle" parameterType="org.sang.bean.Answer" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO article SET title=#{title},mdContent=#{mdContent},htmlContent=#{htmlContent},summary=#{summary},cid=#{cid},uid=#{uid},publishDate=#{publishDate},state=#{state},editTime=#{editTime}
     </insert>
@@ -69,20 +70,13 @@
     <resultMap id="BaseResultMap" type="org.sang.bean.Answer">
         <id column="id" property="id"/>
         <result column="title" property="title"/>
-        <result column="cid" property="cid"/>
+        <result column="aid" property="aid"/>
         <result column="uid" property="uid"/>
-        <result column="publishDate" property="publishDate"/>
-        <result column="editTime" property="editTime"/>
-        <result column="state" property="state"/>
-        <result column="pageView" property="pageView"/>
-        <result column="mdContent" property="mdContent"/>
-        <result column="htmlContent" property="htmlContent"/>
-        <result column="summary" property="summary"/>
-        <result column="nickname" property="nickname"/>
-        <result column="cateName" property="cateName"/>
-        <collection property="tags" ofType="org.sang.bean.Tags" column="tagName">
-            <id property="id" column="tid"/>
-            <result property="tagName" column="tagName"/>
-        </collection>
+        <result column="cid" property="cid"/>
+        <result column="title" property="title"/>
+        <result column="content" property="content"/>
+        <result column="praise_num" property="praise_num"/>
+        <result column="collect_num" property="collect_num"/>
+        <result column="status" property="status"/>
     </resultMap>
 </mapper>

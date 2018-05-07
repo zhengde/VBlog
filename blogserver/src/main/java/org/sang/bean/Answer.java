@@ -4,10 +4,28 @@ public class Answer {
     private Long id;
     private Long aid;
     private Long uid;
+    private Long cid;
     private int status;
     private String content;
+    private String title;
     private Long praise_num;
     private Long collect_num;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public Long getCid() {
+        return cid;
+    }
+
+    public void setCid(Long cid) {
+        this.cid = cid;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     public Long getAid() {
         return aid;

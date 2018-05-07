@@ -38,5 +38,5 @@ public interface UserMapper {
 
     User loadUserByNickname(String nickname);
 
-    String attentionUser(String uid);
+    void attentionUser(@Param("id") Long id,@Param("uids") String uids);
 }

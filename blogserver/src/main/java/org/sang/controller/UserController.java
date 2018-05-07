@@ -7,10 +7,7 @@ import org.sang.utils.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -77,15 +74,14 @@ public class UserController {
     }
 
     @RequestMapping(value = "/attentionUser", method = RequestMethod.POST)
-    public String attentionUser(Long uid) {
-        return userService.attentionUser(uid);
+    public void attentionUser(@RequestParam Long id, @RequestParam Long uid) {
+        userService.attentionUser(id, uid);
     }
 
     @RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
     public User getUserById(@PathVariable Long id) {
         return userService.getUserById(id);
     }
-
 
 
 }

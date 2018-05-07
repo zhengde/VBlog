@@ -1,30 +1,78 @@
 <template>
-  <div style="margin: 30px">
-    <div>
-      首页
+  <div style="margin: 20px;margin-top: -40px">
+    <div align="left">
+      <el-button type="text" style="margin-bottom: 35px;font-size: large" @click="back">
+        首页
+      </el-button>
     </div>
 
     <div align="left">
-      <img width="60" height="60"
-           src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1514093920321&di=913e88c23f382933ef430024afd9128a&imgtype=0&src=http%3A%2F%2Fp.3761.com%2Fpic%2F9771429316733.jpg"/>
-      <el-button style="margin-left: 220px" onclick="attentionUser">
-        关注用户
-      </el-button>
       <div>
-        <span>江南一点雨</span>
-        <span style="margin-left: 200px">获得 8 次赞</span><br/>
-        <span>惠州学院大四学生</span><span style="margin-left: 150px">获得 15 次收藏</span>
+        <img width="60" height="60"
+             src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1514093920321&di=913e88c23f382933ef430024afd9128a&imgtype=0&src=http%3A%2F%2Fp.3761.com%2Fpic%2F9771429316733.jpg"/>
       </div>
 
+      <table style="width: 100%;">
+        <tr>
+          <td style="width: 200px;"></td>
+          <td style="width: 200px;"></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>江南一点雨</td>
+          <td>获得 8 次赞</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>惠州学院大四学生</td>
+          <td>获得 11 次收藏</td>
+          <td style="padding-right: 60px">
+            <el-button style="float:right;" @click="attentionUser" v-if="user.id!==this.$route.query.id">关注用户
+            </el-button>
+          </td>
+        </tr>
+      </table>
+
+      <el-tabs style="margin-top: 10px;width: 100%; display:inline-block" v-model="activeName" @tab-click="handleClick">
+        <el-tab-pane label="关注话题" name="first">
+          <table>
+            <tr v-for="(item,ind) in attentionTopic">
+              <td>
+                <el-button @click="first(item.id)" type="text">{{item.cateName}}</el-button>
+              </td>
+            </tr>
+          </table>
+        </el-tab-pane>
+        <el-tab-pane label="关注问题" name="second">
+          <table>
+            <tr v-for="(item,ind) in attentionArticles">
+              <td>
+                <el-button @click="second(item.id)" type="text">{{item.title}}</el-button>
+              </td>
+            </tr>
+          </table>
+        </el-tab-pane>
+        <el-tab-pane label="回答" name="third">
+          <table>
+            <tr v-for="(item,ind) in answerArticles">
+              <td>
+                <el-button @click="second(item.aid)" type="text">{{item.title}}</el-button>
+              </td>
+            </tr>
+          </table>
+        </el-tab-pane>
+        <el-tab-pane label="提问" name="forth">
+          <table>
+            <tr v-for="(item,ind) in questionArticles">
+              <td>
+                <el-button @click="second(item.id)" type="text">{{item.title}}</el-button>
+              </td>
+            </tr>
+          </table>
+        </el-tab-pane>
+      </el-tabs>
+
     </div>
-
-    <el-tabs style="margin-top: 10px" v-model="activeName" @tab-click="handleClick">
-      <el-tab-pane label="关注话题" name="first">关注话题</el-tab-pane>
-      <el-tab-pane label="关注问题" name="second">关注问题</el-tab-pane>
-      <el-tab-pane label="回答" name="third">回答</el-tab-pane>
-      <el-tab-pane label="提问" name="forth">提问</el-tab-pane>
-    </el-tabs>
-
   </div>
 
 </template>
@@ -56,34 +104,30 @@
           // 请求「回答」数据
         }).then(user => {
           getRequest('/answer/getAnswerByUid', {uid: user.id}).then(resp => {
-            _this.answerArticles = resp.data.answerArticles;
-          });
+            _this.answerArticles = resp.data;
+          })
           // 请求「关注话题」数据
           getRequest('/category/getCategoriesByIds', {ids: user.attention_cids}).then(resp => {
-            _this.attentionTopic = resp.data.attentionTopic;
+            _this.attentionTopic = resp.data;
           })
         });
       })
 
-
     },
 
     methods: {
+      first(cid) {
+        this.$router.replace({path: '/articleList', query: {cid: cid}});
+      },
+      second(id) {
+        this.$router.push({path: '/blogDetail', query: {aid: id}})
+      },
+      back() {
+        this.$router.replace('/articleList');
+      },
       attentionUser() {
         var _this = this;
-        postRequest('/attentionUser/', {uid: this.user.id}).then(resp => {
-          if (resp.status === 200) {
-            var json = resp.data;
-            _this.$message({type: json.status, message: json.msg});
-          }
-        }, resp => {
-          if (resp.response.status === 403) {
-            _this.$message({
-              type: 'error',
-              message: resp.response.data
-            });
-          }
-        });
+        postRequest('/attentionUser', {id: _this.user.id, uid: _this.$route.query.id})
       },
       handleClick(tab, event) {
         console.log(tab, event);
@@ -108,15 +152,8 @@
         questionArticles: [],
         attentionArticles: [],
         answerArticles: [],
-        attentionTopic: [],
+        attentionTopic: []
       }
     }
   }
 </script>
-<style>
-  .post-article > .main > #editor {
-    width: 100%;
-    height: 450px;
-    text-align: left;
-  }
-</style>

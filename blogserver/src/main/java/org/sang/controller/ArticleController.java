@@ -4,7 +4,6 @@ import org.apache.commons.io.IOUtils;
 import org.sang.bean.*;
 import org.sang.service.AnswerService;
 import org.sang.service.ArticleService;
-import org.sang.service.CommentService;
 import org.sang.service.UserService;
 import org.sang.utils.Util;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -110,6 +109,22 @@ public class ArticleController {
     }
 
     /**
+     * 用于「个人主页」-「回答」
+     * @param aids
+     * @return
+     */
+    @RequestMapping(value = "/{aids}", method = RequestMethod.GET)
+    public List<Map<String, Object>> getArticleByIds(@PathVariable Long aids) {
+        String[] aidsArray = aids.toString().split(",");
+        List<Map<String, Object>> list = new ArrayList<>();
+        for (String aid : aidsArray) {
+            Map<String, Object> articleMap = this.getArticleById(Long.valueOf(aid));
+            list.add(articleMap);
+        }
+        return list;
+    }
+
+    /**
      * 问题详情页面。获取问题信息，回答数据
      *
      * @param aid
@@ -173,7 +188,7 @@ public class ArticleController {
      * @param attentionQids 关注问题的ids
      */
     @RequestMapping(value = "/getArticlesByIds", method = RequestMethod.GET)
-    public Map getArticlesByIds(@RequestParam String questionIds, @RequestParam String attentionQids) {
+    public Map<String, Object> getArticlesByIds(@RequestParam String questionIds, @RequestParam String attentionQids) {
         Map<String, Object> map = new HashMap<>();
         String[] questionIdsArray = questionIds.split(",");
         String[] attentionQidsArray = attentionQids.split(",");
