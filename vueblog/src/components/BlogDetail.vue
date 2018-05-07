@@ -22,8 +22,7 @@
     <el-col align="left">
       <!--<el-button @click="attention">关注问题</el-button>-->
       <el-button @click="answer(article)">回答问题</el-button>
-      <!--【todo】 删除功能测试完成后改成 this.activeName=='江南一点雨 -->
-      <el-button @click="removeDialogShow" v-if="activeName!='江南一点雨'?true:false">删除问题</el-button>
+      <el-button @click="removeArticleDialogShow" v-show="activeName!=='江南一点雨'?true:false">删除问题</el-button>
     </el-col>
     <el-col>
       <div><h3 style="text-align: left">答案区</h3></div>
@@ -34,13 +33,16 @@
         <el-button id="comment" type="text" @click="comment">评论</el-button>
         <!--<el-button id="collect" type="text" @click="collect">收藏</el-button>>-->
         <el-button id="complaint" type="text" @click="complaint">举报</el-button>
+        <el-button id="remove" type="text" v-show="activeName!=='江南一点雨'?true:false"
+                   @click="removeAnswerDialogShow(index)">删除
+        </el-button>
       </div>
     </el-col>
     <el-dialog
       title="提示"
       :visible.sync="complaintVisible"
       width="30%"
-      :before-close="handleClose">
+    >
       <span>确定要进行举报吗</span>
       <span slot="footer" class="dialog-footer">
         <el-button @click="complaintVisible = false">取 消</el-button>
@@ -49,12 +51,23 @@
     </el-dialog>
     <el-dialog
       title="提示"
-      :visible.sync="removeVisible"
+      :visible.sync="removeArticleVisible"
       width="30%"
-      :before-close="handleClose">
+    >
       <span>确定要删除吗</span>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="removeVisible = false">取 消</el-button>
+        <el-button @click="removeArticleVisible = false">取 消</el-button>
+        <el-button type="primary" @click="removeArticle">确 定</el-button>
+       </span>
+    </el-dialog>
+    <el-dialog
+      title="提示"
+      :visible.sync="removeAnswerVisible"
+      width="30%"
+    >
+      <span>确定要删除吗</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="removeAnswerVisible = false">取 消</el-button>
         <el-button type="primary" @click="removeAnswer">确 定</el-button>
        </span>
     </el-dialog>
@@ -66,49 +79,50 @@
   import {postRequest} from '../utils/api'
   import {putRequest} from '../utils/api'
   import {deleteRequest} from '../utils/api'
+  import index from "../router";
 
   export default {
     components: {ElButton},
     methods: {
-      handleClose(done) {
-        this.$confirm('确认关闭？')
-          .then(_ => {
-            done();
-          })
-      },
       goBack() {
         this.$router.go(-1);
       },
-      /* attention() {
-         let button = document.getElementById('praise');
-         if (this.num % 2 == 0) {
-           console.log(num + '====已关注===');
-           button.value = '已关注';
-         } else {
-           console.log(num + '=======');
-           button.value = '关注问题';
-         }
-         this.num++;
-       },*/
       answer(articles) {
         this.$router.push({path: '/answer', query: {aid: this.$route.query.aid, title: articles.title}});
       },
-      removeDialogShow(){
-        this.removeVisible = true;
+      removeArticleDialogShow() {
+        this.removeArticleVisible = true;
       },
-      removeAnswer() {
-        this.removeVisible = true;
-        if (this.removeVisible) {
-          putRequest('/article/remove/' + this.$route.query.aid).then(resp=>{
-            if (resp.status === 200){
+      removeAnswerDialogShow(index) {
+        this.index = index
+        this.removeAnswerVisible = true;
+      },
+      // 删除问题
+      removeArticle() {
+        if (this.removeArticleVisible) {
+          putRequest('/article/remove/' + this.$route.query.aid).then(resp => {
+            if (resp.status === 200) {
               this.$router.push({path: '/articleList'})
+              _this.removeArticleVisible = false;
+            }
+          });
+        }
+      },
+      //  删除回答
+      removeAnswer() {
+        var _this = this
+        if (this.removeAnswerVisible) {
+          putRequest('/answer/remove/' + this.answers[this.index].id
+          ).then(resp => {
+            if (resp.status === 200) {
+              _this.answers.splice(_this.index, 1)
+              _this.removeAnswerVisible = false;
             }
           });
         }
       },
       praise(item) {
-        // 奇数次点击按钮--》点赞
-        if (this.num % 2 === 0) {
+        if (item.num % 2 === 0) {
           item.praise_num = item.praise_num + 1;
           postRequest('/answer/praise', {id: item.id})
           // 偶数次点击按钮--》取消点赞
@@ -116,8 +130,7 @@
           item.praise_num = item.praise_num - 1;
           postRequest('/answer/cancelPraise', {id: item.id})
         }
-        this.num++;
-
+        item.num++;
       },
       comment() {
       },
@@ -137,6 +150,9 @@
           _this.article = resp.data.articles;
           _this.answers = resp.data.answerList;
           _this.users = resp.data.userList;
+          _this.answers.forEach(function (obj) {
+            obj.num = 2
+          })
         }
         _this.loading = false;
       }, resp => {
@@ -155,7 +171,8 @@
       // });
 
 
-    },
+    }
+    ,
     data() {
       return {
         num: 2,
@@ -165,7 +182,9 @@
         answers: [],
         users: [],
         complaintVisible: false,
-        removeVisible: false,
+        removeArticleVisible: false,
+        removeAnswerVisible: false,
+        index: 0
       }
     }
   }

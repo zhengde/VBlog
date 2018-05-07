@@ -31,6 +31,10 @@
         create_time = #{create_time},
         status = 1
     </insert>
+    <!--删除回答-->
+    <update id="remove">
+        UPDATE answer SET status = 0 WHERE id = #{id}
+    </update>
 
 
     <!-- ==== 以下全都不是正确的  ===== -->

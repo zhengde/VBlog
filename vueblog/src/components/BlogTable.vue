@@ -168,7 +168,6 @@
       },
       loadBlogs(page, count) {
         var _this = this;
-        console.log(this.state);
         var url = '';
         if (_this.state == -2) {
           url = "/admin/article/all" + "?page=" + page + "&count=" + count + "&keywords=" + this.keywords;

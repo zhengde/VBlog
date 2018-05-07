@@ -49,5 +49,16 @@ public class AnswerController {
         return answerArticles;
     }
 
+    /**
+     * 删除回答，仅管理员有权，非管理员也不会在前端出现「删除」按钮
+     */
+    @RequestMapping(value = "/remove/{id}", method = RequestMethod.PUT)
+    public RespBean remove(@PathVariable Long id) {
+        if (answerService.remove(id)) {
+            return new RespBean("success", "删除成功!");
+        }
+        return new RespBean("error", "删除失败!");
+    }
+
 
 }

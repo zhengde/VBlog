@@ -19,7 +19,7 @@
       <div style="display: flex;align-items: center;margin-top: 15px;justify-content: flex-end">
         <el-button @click="cancelEdit" v-if="from!=undefined">放弃修改</el-button>
         <template v-if="from==undefined || from=='draft'">
-          <el-button type="primary" @click="submit">回答</el-button>
+          <el-button type="primary" @click="submit">提交</el-button>
         </template>
       </div>
     </el-main>

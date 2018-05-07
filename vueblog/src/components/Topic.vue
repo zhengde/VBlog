@@ -16,7 +16,7 @@
       // 请求话题数据
       getRequest("/category/all").then(resp => {
         if (resp.status == 200) {
-          let a = _this.getData(resp.data, 'parentId', 'id');
+          let a = _this.getData(resp.data, 'parent_id', 'id');
           console.log(a)
           _this.formTreeData = a;
         }
@@ -24,12 +24,10 @@
         console.log(arguments);
       })
     },
-
     methods: {
       handleNodeClick(data) {
         this.$router.replace({path: '/articleList',query : { cid : data.info.id}});
       },
-
       getData: function (data, parentId, childId) {
         var tree = [];
         var tmp = {};

@@ -18,4 +18,7 @@ public interface AnswerMapper {
     List<Answer> getAnswerByUid(String uid);
 
     void cancelPraise(Long id);
+
+    boolean remove(Long id);
+
 }

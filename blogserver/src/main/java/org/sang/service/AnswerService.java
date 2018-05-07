@@ -38,4 +38,8 @@ public class AnswerService {
     public void cancelPraise(Long id) {
         answerMapper.cancelPraise(id);
     }
+
+    public boolean remove(Long id) {
+        return answerMapper.remove(id);
+    }
 }
