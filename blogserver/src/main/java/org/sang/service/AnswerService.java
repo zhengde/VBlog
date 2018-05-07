@@ -23,11 +23,11 @@ public class AnswerService {
         answerMapper.praise(id);
     }
 
-    public int answer(Long id, String content) {
-        if (content == null || content.length() < 1) {
+    public int answer(Long id, String uid, String content, String title) {
+        if (content == null || content.length() < 1 || title == null || title.length() < 1) {
             return 0;
         }
-        answerMapper.answer(id, content);
+        answerMapper.answer(id, uid, content, title, String.valueOf(System.currentTimeMillis()));
         return 1;
     }
 

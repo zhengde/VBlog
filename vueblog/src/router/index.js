@@ -115,18 +115,5 @@ export default new Router({
         keepAlive: false
       }
     }
-    // , {
-    //   path: '/home',
-    //   component: Home,
-    //   name: '用户管理',
-    //   children: [
-    //     {
-    //       path: '/user',
-    //       iconCls: 'fa fa-user-o',
-    //       name: '用户管理',
-    //       component: UserMana
-    //     }
-    //   ]
-    // }
   ]
 })

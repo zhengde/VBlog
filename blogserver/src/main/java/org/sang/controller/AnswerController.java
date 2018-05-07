@@ -30,9 +30,9 @@ public class AnswerController {
         answerService.cancelPraise(id);
     }
 
-    @RequestMapping(value = "/{aid}", method = RequestMethod.POST)
-    public RespBean answer(@PathVariable Long id, String content) {
-        int result = answerService.answer(id, content);
+    @RequestMapping(value = "/", method = RequestMethod.POST)
+    public RespBean answer(Long id, String uid, String content, String title) {
+        int result = answerService.answer(id, uid, content, title);
         if (result == 1) {
             return new RespBean("success", "回答成功");
         } else {
@@ -48,4 +48,6 @@ public class AnswerController {
         List<Answer> answerArticles = answerService.getAnswerByUid(uid);
         return answerArticles;
     }
+
+
 }

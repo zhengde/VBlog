@@ -21,8 +21,19 @@
     <update id="cancelPraise">
         UPDATE answer SET praise_num = praise_num-1 WHERE id = #{id}
     </update>
+    <!-- 回答 -->
+    <insert id="answer">
+        INSERT INTO answer SET
+        uid = #{uid},
+        aid = #{aid},
+        content = #{content},
+        title = #{title},
+        create_time = #{create_time},
+        status = 1
+    </insert>
 
-    <!--  以下全都不是正确的  -->
+
+    <!-- ==== 以下全都不是正确的  ===== -->
     <insert id="addNewArticle" parameterType="org.sang.bean.Answer" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO article SET title=#{title},mdContent=#{mdContent},htmlContent=#{htmlContent},summary=#{summary},cid=#{cid},uid=#{uid},publishDate=#{publishDate},state=#{state},editTime=#{editTime}
     </insert>
@@ -83,5 +94,6 @@
         <result column="praise_num" property="praise_num"/>
         <result column="collect_num" property="collect_num"/>
         <result column="status" property="status"/>
+        <result column="create_time" property="create_time"/>
     </resultMap>
 </mapper>

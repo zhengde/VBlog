@@ -13,7 +13,7 @@ public interface AnswerMapper {
 
     void praise(Long id);
 
-    int answer(@Param("id")Long id,@Param("content") String content);
+    void answer(@Param("aid") Long id,@Param("uid")  String uid, @Param("content") String content, @Param("title") String title,@Param("create_time") String createTime);
 
     List<Answer> getAnswerByUid(String uid);
 

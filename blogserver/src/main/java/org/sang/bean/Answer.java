@@ -10,6 +10,15 @@ public class Answer {
     private String title;
     private Long praise_num;
     private Long collect_num;
+    private Long create_time;
+
+    public Long getCreate_time() {
+        return create_time;
+    }
+
+    public void setCreate_time(Long create_time) {
+        this.create_time = create_time;
+    }
 
     public String getTitle() {
         return title;

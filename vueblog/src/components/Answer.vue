@@ -39,7 +39,9 @@
 
   export default {
     mounted: function () {
-      this.getCategories();
+      this.article.id = this.$route.query.aid;
+      this.article.title = this.$route.query.title;
+      // this.getCategories();
       var from = this.$route.query.from;
       this.from = from;
       var _this = this;
@@ -47,7 +49,7 @@
         var id = this.$route.query.id;
         this.id = id;
         this.loading = true;
-        getRequest("/article/" + id).then(resp=> {
+        getRequest("/article/" + id).then(resp => {
           _this.loading = false;
           if (resp.status == 200) {
             _this.article = resp.data;
@@ -59,7 +61,7 @@
           } else {
             _this.$message({type: 'error', message: '页面加载失败!'})
           }
-        }, resp=> {
+        }, resp => {
           _this.loading = false;
           _this.$message({type: 'error', message: '页面加载失败!'})
         })
@@ -69,13 +71,29 @@
       mavonEditor
     },
     methods: {
-      submit(){
+      submit() {
+        var _this = this
+        getRequest('/currentUserId').then(resp => {
+          return resp.data;
+        }).then(uid => {
+          postRequest('/answer/', {
+            id: _this.article.id,
+            uid: uid,
+            content: _this.article.mdContent,
+            title: _this.article.title,
+          }).then(resp => {
+              if (resp.status === 200) {
+                this.$router.push({path: '/blogDetail', query: {aid: _this.article.id}})
+              }
+            }
+          )
+        })
 
       },
-      cancelEdit(){
+      cancelEdit() {
         this.$router.go(-1)
       },
-      saveBlog(state){
+      saveBlog(state) {
         if (!(isNotNullORBlank(this.article.title, this.article.mdContent, this.article.cid))) {
           this.$message({type: 'error', message: '数据不能为空!'});
           return;
@@ -90,7 +108,7 @@
           cid: _this.article.cid,
           state: state,
           dynamicTags: _this.article.dynamicTags
-        }).then(resp=> {
+        }).then(resp => {
           _this.loading = false;
           if (resp.status == 200 && resp.data.status == 'success') {
             _this.article.id = resp.data.msg;
@@ -102,17 +120,17 @@
               _this.$router.replace({path: '/articleList'});
             }
           }
-        }, resp=> {
+        }, resp => {
           _this.loading = false;
           _this.$message({type: 'error', message: state == 0 ? '保存草稿失败!' : '博客发布失败!'});
         })
       },
-      imgAdd(pos, $file){
+      imgAdd(pos, $file) {
         var _this = this;
         // 第一步.将图片上传到服务器.
         var formdata = new FormData();
         formdata.append('image', $file);
-        uploadFileRequest("/article/uploadimg", formdata).then(resp=> {
+        uploadFileRequest("/article/uploadimg", formdata).then(resp => {
           var json = resp.data;
           if (json.status == 'success') {
 //            _this.$refs.md.$imgUpdateByUrl(pos, json.msg)
@@ -122,12 +140,12 @@
           }
         });
       },
-      imgDel(pos){
+      imgDel(pos) {
 
       },
-      getCategories(){
+      getCategories() {
         let _this = this;
-        getRequest("/admin/category/all").then(resp=> {
+        getRequest("/admin/category/all").then(resp => {
           _this.categories = resp.data;
         });
       },
@@ -157,7 +175,7 @@
         loading: false,
         from: '',
         article: {
-          id: '-1',
+          id: '',
           dynamicTags: [],
           title: '',
           mdContent: '',

@@ -21,9 +21,9 @@
     </el-col>
     <el-col align="left">
       <!--<el-button @click="attention">关注问题</el-button>-->
-      <el-button @click="answer">回答问题</el-button>
+      <el-button @click="answer(article)">回答问题</el-button>
       <!--【todo】 删除功能测试完成后改成 this.activeName=='江南一点雨 -->
-      <el-button @click="removeAnswer" v-if="this.activeName!='江南一点雨'?true:false">删除问题</el-button>
+      <el-button @click="removeAnswer" v-if="activeName!='江南一点雨'?true:false">删除问题</el-button>
     </el-col>
     <el-col>
       <div><h3 style="text-align: left">答案区</h3></div>
@@ -79,15 +79,14 @@
          }
          this.num++;
        },*/
-      answer(id) {
-        this.$router.push({path: '/answer'});
+      answer(articles) {
+        this.$router.push({path: '/answer', query: {aid: this.$route.query.aid, title: articles.title}});
       },
       removeAnswer() {
         // todo 设置 stauts = 0
         this.$router.push({path: '/remove/' + this.$route.query.aid});
       },
       praise(item) {
-        console.log(this.num)
         // 奇数次点击按钮--》点赞
         if (this.num % 2 === 0) {
           item.praise_num = item.praise_num + 1;
