@@ -47,6 +47,7 @@
         <if test="keywords!=null">
             AND title LIKE concat('%',#{keywords},'%')
         </if>
+        AND a.status = 1
         ORDER BY a.editTime DESC limit #{start},#{count};
     </select>
 

@@ -23,7 +23,7 @@
       <!--<el-button @click="attention">关注问题</el-button>-->
       <el-button @click="answer(article)">回答问题</el-button>
       <!--【todo】 删除功能测试完成后改成 this.activeName=='江南一点雨 -->
-      <el-button @click="removeAnswer" v-if="activeName!='江南一点雨'?true:false">删除问题</el-button>
+      <el-button @click="removeDialogShow" v-if="activeName!='江南一点雨'?true:false">删除问题</el-button>
     </el-col>
     <el-col>
       <div><h3 style="text-align: left">答案区</h3></div>
@@ -38,13 +38,24 @@
     </el-col>
     <el-dialog
       title="提示"
-      :visible.sync="dialogVisible"
+      :visible.sync="complaintVisible"
       width="30%"
       :before-close="handleClose">
       <span>确定要进行举报吗</span>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+        <el-button @click="complaintVisible = false">取 消</el-button>
+        <el-button type="primary" @click="complaintVisible = false">确 定</el-button>
+       </span>
+    </el-dialog>
+    <el-dialog
+      title="提示"
+      :visible.sync="removeVisible"
+      width="30%"
+      :before-close="handleClose">
+      <span>确定要删除吗</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="removeVisible = false">取 消</el-button>
+        <el-button type="primary" @click="removeAnswer">确 定</el-button>
        </span>
     </el-dialog>
   </el-row>
@@ -82,9 +93,18 @@
       answer(articles) {
         this.$router.push({path: '/answer', query: {aid: this.$route.query.aid, title: articles.title}});
       },
+      removeDialogShow(){
+        this.removeVisible = true;
+      },
       removeAnswer() {
-        // todo 设置 stauts = 0
-        this.$router.push({path: '/remove/' + this.$route.query.aid});
+        this.removeVisible = true;
+        if (this.removeVisible) {
+          putRequest('/article/remove/' + this.$route.query.aid).then(resp=>{
+            if (resp.status === 200){
+              this.$router.push({path: '/articleList'})
+            }
+          });
+        }
       },
       praise(item) {
         // 奇数次点击按钮--》点赞
@@ -104,7 +124,7 @@
       collect() {
       },
       complaint() {
-        this.dialogVisible = true;
+        this.complaintVisible = true;
       },
     },
     mounted: function () {
@@ -144,7 +164,8 @@
         activeName: '',
         answers: [],
         users: [],
-        dialogVisible: false,
+        complaintVisible: false,
+        removeVisible: false,
       }
     }
   }
