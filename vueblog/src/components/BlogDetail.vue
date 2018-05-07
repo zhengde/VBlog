@@ -9,14 +9,8 @@
       <div>
         <div><h3 style="margin-top: 0px;margin-bottom: 0px">{{article.title}}</h3></div>
         <div style="width: 100%;margin-top: 5px;display: flex;justify-content: flex-end;align-items: center">
-          <div style="display: inline; color: #20a0ff;margin-left: 50px;margin-right:20px;font-size: 12px;">
-            {{article.nickname}}
-          </div>
           <span style="color: #20a0ff;margin-right:20px;font-size: 12px;">浏览 {{article.pageView==null?0:article.pageView}}</span>
           <span style="color: #20a0ff;margin-right:20px;font-size: 12px;"> {{article.editTime | formatDateTime}}</span>
-          <!--<el-tag type="success" v-for="(item,index) in article.tags" :key="index" size="small"
-                  style="margin-left: 8px">{{item.tagName}}
-          </el-tag>-->
           <span style="margin:0px 50px 0px 0px"></span>
         </div>
       </div>
@@ -36,7 +30,7 @@
       <div v-for="(item,index) in answers" :key="index" align="left">
         <p>{{users[index].nickname}}</p>
         {{item.content}}<br/>
-        <el-button id="praise" size="small" @click="praise(item.praise_num)">赞 {{item.praise_num}}</el-button>
+        <el-button id="praise" size="small" @click="praise(item)">赞 {{item.praise_num}}</el-button>
         <el-button id="comment" type="text" @click="comment">评论</el-button>
         <!--<el-button id="collect" type="text" @click="collect">收藏</el-button>>-->
         <el-button id="complaint" type="text" @click="complaint">举报</el-button>
@@ -70,23 +64,21 @@
           .then(_ => {
             done();
           })
-          .catch(_ => {
-          });
       },
       goBack() {
         this.$router.go(-1);
       },
-     /* attention() {
-        let button = document.getElementById('praise');
-        if (this.num % 2 == 0) {
-          console.log(num + '====已关注===');
-          button.value = '已关注';
-        } else {
-          console.log(num + '=======');
-          button.value = '关注问题';
-        }
-        this.num++;
-      },*/
+      /* attention() {
+         let button = document.getElementById('praise');
+         if (this.num % 2 == 0) {
+           console.log(num + '====已关注===');
+           button.value = '已关注';
+         } else {
+           console.log(num + '=======');
+           button.value = '关注问题';
+         }
+         this.num++;
+       },*/
       answer(id) {
         this.$router.push({path: '/answer'});
       },
@@ -94,17 +86,23 @@
         // todo 设置 stauts = 0
         this.$router.push({path: '/remove/' + this.$route.query.aid});
       },
-      praise(praise_num) {
-        // todo 赞数+1 接口，前端数字+1
-        console.log(praise_num);
-        praise_num = praise_num + 1;
+      praise(item) {
+        console.log(this.num)
+        // 奇数次点击按钮--》点赞
+        if (this.num % 2 === 0) {
+          item.praise_num = item.praise_num + 1;
+          postRequest('/answer/praise', {id: item.id})
+          // 偶数次点击按钮--》取消点赞
+        } else {
+          item.praise_num = item.praise_num - 1;
+          postRequest('/answer/cancelPraise', {id: item.id})
+        }
+        this.num++;
+
       },
       comment() {
-        // todo
       },
       collect() {
-        // UI 变化，
-        this.getElementById('collect').value('已收藏');
       },
       complaint() {
         this.dialogVisible = true;
@@ -116,7 +114,7 @@
       var _this = this;
       this.loading = true;
       getRequest("/article/" + aid).then(resp => {
-        if (resp.status == 200) {
+        if (resp.status === 200) {
           _this.article = resp.data.articles;
           _this.answers = resp.data.answerList;
           _this.users = resp.data.userList;
@@ -127,21 +125,21 @@
         _this.$message({type: 'error', message: '页面加载失败!'});
       });
       // todo 获取用户所有关注问题 id，判断本问题是否为用户关注的问题
-      getRequest("/article/").then(resp => {
-        if (resp.status == 200) {
-          _this.article = resp.data.articles;
-        }
-        _this.loading = false;
-      }, resp => {
-        _this.loading = false;
-        _this.$message({type: 'error', message: '页面加载失败!'});
-      });
+      // getRequest("/article/").then(resp => {
+      //   if (resp.status == 200) {
+      //     _this.article = resp.data.articles;
+      //   }
+      //   _this.loading = false;
+      // }, resp => {
+      //   _this.loading = false;
+      //   _this.$message({type: 'error', message: '页面加载失败!'});
+      // });
 
 
     },
     data() {
       return {
-        num: 0,
+        num: 2,
         article: {},
         loading: false,
         activeName: '',

@@ -34,4 +34,8 @@ public class AnswerService {
     public List<Answer> getAnswerByUid(String uid) {
         return answerMapper.getAnswerByUid(uid);
     }
+
+    public void cancelPraise(Long id) {
+        answerMapper.cancelPraise(id);
+    }
 }

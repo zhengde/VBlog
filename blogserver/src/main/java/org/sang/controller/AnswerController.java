@@ -25,6 +25,11 @@ public class AnswerController {
         answerService.praise(id);
     }
 
+    @RequestMapping(value = "/cancelPraise", method = RequestMethod.POST)
+    public void cancelPraise(Long id) {
+        answerService.cancelPraise(id);
+    }
+
     @RequestMapping(value = "/{aid}", method = RequestMethod.POST)
     public RespBean answer(@PathVariable Long id, String content) {
         int result = answerService.answer(id, content);

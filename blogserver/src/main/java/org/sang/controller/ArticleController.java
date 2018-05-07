@@ -109,23 +109,7 @@ public class ArticleController {
     }
 
     /**
-     * 用于「个人主页」-「回答」
-     * @param aids
-     * @return
-     */
-    @RequestMapping(value = "/{aids}", method = RequestMethod.GET)
-    public List<Map<String, Object>> getArticleByIds(@PathVariable Long aids) {
-        String[] aidsArray = aids.toString().split(",");
-        List<Map<String, Object>> list = new ArrayList<>();
-        for (String aid : aidsArray) {
-            Map<String, Object> articleMap = this.getArticleById(Long.valueOf(aid));
-            list.add(articleMap);
-        }
-        return list;
-    }
-
-    /**
-     * 问题详情页面。获取问题信息，回答数据
+     * 「问题详情」页面。获取问题信息，回答数据
      *
      * @param aid
      * @return
