@@ -33,10 +33,12 @@ public interface UserMapper {
 
     User getUserById(@Param("id") Long id);
 
-//    void attention(String nickname,/*@Param("attention_qids") */String attention_qids);
     void attention(@Param("nickname")String nickname,@Param("aids") String aids);
 
     User loadUserByNickname(String nickname);
 
     void attentionUser(@Param("id") Long id,@Param("uids") String uids);
+
+    void attentionTopic(@Param("id")Long uid, @Param("cids")String cids);
+
 }

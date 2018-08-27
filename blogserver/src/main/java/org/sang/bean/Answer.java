@@ -4,7 +4,7 @@ public class Answer {
     private Long id;
     private Long aid;
     private Long uid;
-    private Long cid;
+//    private Long cid;
     private int status;
     private String content;
     private String title;
@@ -22,14 +22,6 @@ public class Answer {
 
     public String getTitle() {
         return title;
-    }
-
-    public Long getCid() {
-        return cid;
-    }
-
-    public void setCid(Long cid) {
-        this.cid = cid;
     }
 
     public void setTitle(String title) {

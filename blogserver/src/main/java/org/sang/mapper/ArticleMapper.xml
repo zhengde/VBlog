@@ -10,7 +10,7 @@
             #{id}
         </foreach>
         AND a.status = 1
-        ORDER BY a.publishDate
+        ORDER BY a.pageView DESC
     </select>
     <update id="remove">
         UPDATE article SET status = 0 WHERE id = #{aid}
@@ -48,14 +48,14 @@
             AND title LIKE concat('%',#{keywords},'%')
         </if>
         AND a.status = 1
-        ORDER BY a.editTime DESC limit #{start},#{count};
+        ORDER BY a.pageView DESC limit #{start},#{count};
     </select>
 
     <select id="getArticleByCid" resultType="org.sang.bean.Article">
         SELECT a.id,a.`title`,a.`editTime`,a.cid,a.`pageView`,a.`state`,u.`nickname`,c.`cateName`,a.uid FROM article a join user u on a.uid = u.id
         join category c on a.cid = c.id
         where cid = #{cid}
-        ORDER BY a.editTime DESC limit #{start},#{count};
+        ORDER BY a.pageView DESC limit #{start},#{count};
     </select>
     <select id="getArticleByStateByAdmin" resultType="org.sang.bean.Article">
         SELECT a.id,a.`title`,a.`editTime`,a.`pageView`,a.`state`,u.`nickname`,c.`cateName`,a.uid FROM article a,user
@@ -63,7 +63,7 @@
         <if test="keywords!=null">
             AND title LIKE concat('%',#{keywords},'%')
         </if>
-        ORDER BY a.editTime DESC limit #{start},#{count};
+        ORDER BY a.pageView DESC limit #{start},#{count};
     </select>
     <select id="getArticleCountByState" resultType="int">
         SELECT count(*) FROM article

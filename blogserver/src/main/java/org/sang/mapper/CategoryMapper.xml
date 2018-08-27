@@ -3,6 +3,18 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.sang.mapper.CategoryMapper">
+    <!--增加话题-->
+    <insert id="add" parameterType="org.sang.bean.Category">
+        INSERT INTO category SET cateName=#{cateName},status = 1,parent_id = 0
+    </insert>
+    <!--修改话题-->
+    <update id="updateCategory" parameterType="org.sang.bean.Category">
+        UPDATE category SET cateName=#{lastName} WHERE cateName = #{curName}
+    </update>
+    <!--删除话题-->
+    <update id="remove">
+        UPDATE category SET status=0 WHERE id = #{id}
+    </update>
     <select id="getCategoriesByIds" resultType="org.sang.bean.Category">
         SELECT * FROM category WHERE id IN
         <foreach collection="ids" separator="," open="(" close=")" item="id">
@@ -10,8 +22,11 @@
         </foreach>
         AND status = 1
     </select>
+
+        <!--SELECT c.id,c.parent_id,c.status,c.cateName,u.attention_cids FROM category c-->
+        <!--ON c.id IN #{cid} WHERE c.status = 1-->
     <select id="getAllCategories" resultType="org.sang.bean.Category">
-        SELECT * FROM category
+        SELECT * FROM category WHERE status = 1
     </select>
     <delete id="deleteCategoryByIds">
         DELETE FROM category WHERE id IN
@@ -22,7 +37,5 @@
     <update id="updateCategoryById" parameterType="org.sang.bean.Category">
         UPDATE category SET cateName=#{cateName} WHERE id=#{id}
     </update>
-    <insert id="addCategory" parameterType="org.sang.bean.Category">
-        INSERT INTO category SET date=#{date},cateName=#{cateName}
-    </insert>
+
 </mapper>

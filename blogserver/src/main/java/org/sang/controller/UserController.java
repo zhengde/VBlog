@@ -78,9 +78,25 @@ public class UserController {
         userService.attentionUser(id, uid);
     }
 
+    @RequestMapping(value = "/attentionTopic", method = RequestMethod.POST)
+    public void attentionTopic(@RequestParam Long cid, @RequestParam Long uid) {
+        userService.attentionTopic(cid, uid);
+    }
+
     @RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
     public User getUserById(@PathVariable Long id) {
         return userService.getUserById(id);
+    }
+
+
+    /**
+     *
+     * @param uid
+     * @return
+     */
+    @RequestMapping(value = "/cids", method = RequestMethod.GET)
+    public String[] getAttentionCid(Long uid) {
+        return userService.getUserById(uid).getAttention_cids().split(",");
     }
 
 

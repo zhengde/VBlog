@@ -1,5 +1,7 @@
 package org.sang.service;
 
+import org.apache.ibatis.annotations.Case;
+import org.apache.ibatis.annotations.Param;
 import org.sang.bean.Category;
 import org.sang.mapper.CategoryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,5 +41,17 @@ public class CategoryService {
 
     public List<Category> getCategoriesByIds(String[] ids) {
         return categoryMapper.getCategoriesByIds(ids);
+    }
+
+    public boolean remove(Long id) {
+        return categoryMapper.remove(id);
+    }
+
+    public void updateCategory(String lastName, String curName) {
+        categoryMapper.updateCategory(lastName,curName);
+    }
+
+    public void add(String name) {
+        categoryMapper.add(name);
     }
 }

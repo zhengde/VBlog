@@ -4,9 +4,20 @@ public class Comment {
     private Long id;
     private Long top_id;
     private Long parent_id;
+    private Long answerId;
     private String content;
     private Long uid;
+    private Long aid;
     private int status;
+    private Long create_time;
+
+    public Long getAnswerId() {
+        return answerId;
+    }
+
+    public void setAnswerId(Long answerId) {
+        this.answerId = answerId;
+    }
 
     public int getStatus() {
         return status;
@@ -14,6 +25,22 @@ public class Comment {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public Long getAid() {
+        return aid;
+    }
+
+    public void setAid(Long aid) {
+        this.aid = aid;
+    }
+
+    public Long getCreate_time() {
+        return create_time;
+    }
+
+    public void setCreate_time(Long create_time) {
+        this.create_time = create_time;
     }
 
     public Long getId() {

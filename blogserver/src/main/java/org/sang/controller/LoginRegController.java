@@ -39,7 +39,13 @@ public class LoginRegController {
     }
 
     @RequestMapping("/reg")
-    public RespBean reg(User user) {
+//    public RespBean reg(User user) {
+    public RespBean reg(String username,String password) {
+        User user = new User();
+        user.setUsername(username);
+        user.setNickname(username);
+        user.setUserface("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1514093920321&di=913e88c23f382933ef430024afd9128a&imgtype=0&src=http%3A%2F%2Fp.3761.com%2Fpic%2F9771429316733.jpg");
+        user.setPassword(password);
         int result = userService.reg(user);
         if (result == 0) {
             //成功

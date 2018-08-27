@@ -14,6 +14,7 @@ public class Article {
     private String summary;
     private Long cid;
     private Long uid;
+    private Long create_time;
     private Timestamp publishDate;
     private Integer state;
     private Integer pageView;
@@ -25,20 +26,20 @@ public class Article {
     private String stateStr;
     private int status;
 
+    public Long getCreate_time() {
+        return create_time;
+    }
+
+    public void setCreate_time(Long create_time) {
+        this.create_time = create_time;
+    }
+
     public int getStatus() {
         return status;
     }
 
     public void setStatus(int status) {
         this.status = status;
-    }
-
-    public String getStateStr() {
-        return stateStr;
-    }
-
-    public void setStateStr(String stateStr) {
-        this.stateStr = stateStr;
     }
 
     public List<Tags> getTags() {

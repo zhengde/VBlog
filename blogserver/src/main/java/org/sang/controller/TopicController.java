@@ -1,5 +1,6 @@
 package org.sang.controller;
 
+import org.sang.bean.RespBean;
 import org.sang.bean.Topic;
 import org.sang.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,4 +21,6 @@ public class TopicController {
     public List<Topic> getAllTopic() {
         return topicService.getAllTopic();
     }
+
+
 }

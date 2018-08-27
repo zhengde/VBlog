@@ -4,6 +4,7 @@ import org.apache.commons.io.IOUtils;
 import org.sang.bean.*;
 import org.sang.service.AnswerService;
 import org.sang.service.ArticleService;
+import org.sang.service.CommentService;
 import org.sang.service.UserService;
 import org.sang.utils.Util;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,9 @@ public class ArticleController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    CommentService commentService;
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public RespBean addNewArticle(Article article) {
@@ -118,6 +122,7 @@ public class ArticleController {
     public Map<String, Object> getArticleById(@PathVariable Long aid) {
         Article articles = articleService.getArticleById(aid);
         List<Answer> answerList = answerService.getAnswerByAid(aid);
+//        List<Comment> commentList = commentService.getParentCommentByAid(aid);
 
         List<User> userList = new ArrayList<>();
         for (Answer answer : answerList) {
@@ -130,6 +135,7 @@ public class ArticleController {
         map.put("articles", articles);
         map.put("answerList", answerList);
         map.put("userList", userList);
+//        map.put("parentComment", commentList);
         return map;
     }
 

@@ -3,6 +3,10 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.sang.mapper.UserMapper">
+    <!--关注话题-->
+    <update id="attentionTopic">
+        UPDATE user SET attention_cids = #{cids} WHERE id = #{id}
+    </update>
     <!--关注用户-->
     <update id="attentionUser">
       UPDATE user SET attention_ids = #{uids} WHERE id = #{id}

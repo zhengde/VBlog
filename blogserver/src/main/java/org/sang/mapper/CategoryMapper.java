@@ -20,4 +20,10 @@ public interface CategoryMapper {
     int addCategory(Category category);
 
     List<Category> getCategoriesByIds(@Param("ids") String[] ids);
+
+    boolean remove(Long id);
+
+    void updateCategory(@Param("lastName") String lastName,@Param("curName") String curName);
+
+    void add(String name);
 }

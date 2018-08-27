@@ -30,6 +30,13 @@ public class AnswerController {
         answerService.cancelPraise(id);
     }
 
+    /**
+     * @param id 问题id
+     * @param uid
+     * @param content
+     * @param title
+     * @return
+     */
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public RespBean answer(Long id, String uid, String content, String title) {
         int result = answerService.answer(id, uid, content, title);

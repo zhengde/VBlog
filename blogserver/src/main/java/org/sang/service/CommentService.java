@@ -15,8 +15,20 @@ public class CommentService {
     @Autowired
     CommentMapper commentMapper;
 
-    public List<Comment> getCommentByAid(Long aid) {
+    public boolean remove(Long id) {
+        return commentMapper.remove(id);
+    }
 
-        return commentMapper.getCommentByAid(aid);
+    public int comment(Long id, String uid, String content, String topId, String parentId) {
+        if (content == null || content.length() < 1) {
+            return 0;
+        }
+        commentMapper.comment(id, uid, content, String.valueOf(System.currentTimeMillis()), "0", "0");
+        return 1;
+    }
+
+    public List<Comment> getComment(String[] answerIds) {
+        return commentMapper.getComment(answerIds);
+
     }
 }

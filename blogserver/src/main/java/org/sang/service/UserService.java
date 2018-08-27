@@ -137,6 +137,11 @@ public class UserService implements UserDetailsService {
         return userMapper.loadUserByNickname(nickname);
     }
 
+    /**
+     *
+     * @param id 当前用户的id
+     * @param uid 要关注的用户id
+     */
     public void attentionUser(Long id, Long uid) {
         // 获取该用户已经关注的用户id
         String usersid = userMapper.getUserById(id).getAttention_ids();
@@ -162,11 +167,45 @@ public class UserService implements UserDetailsService {
         } else {
             // 关注用户
             usersid = usersid.concat("," + uid.toString());
-            if (usersid.indexOf(",") == 0){
-                userMapper.attentionUser(id, usersid.substring(1,usersid.length()));
-            }else {
+            if (usersid.indexOf(",") == 0) {
+                userMapper.attentionUser(id, usersid.substring(1, usersid.length()));
+            } else {
                 userMapper.attentionUser(id, usersid);
             }
         }
+    }
+
+    public void attentionTopic(Long cid, Long uid) {
+        // 获取该用户已经关注的话题 id
+        String cids = userMapper.getUserById(uid).getAttention_cids();
+        String[] cidArray = cids.split(",");
+
+        String result = "";
+        boolean flag = false;
+        // 判断是否关注过此话题
+        for (int i = 0; i < cidArray.length; i++) {
+            if (cid.toString().equals(cidArray[i])) {
+                flag = true;
+            } else {
+                result = result.concat("," + cidArray[i]);
+            }
+        }
+        if (flag) {
+            // 取消关注话题
+            if (result.indexOf(",") == 0) {
+                userMapper.attentionTopic(uid, result.substring(1, result.length()));
+            } else {
+                userMapper.attentionTopic(uid, result);
+            }
+        } else {
+            // 关注话题
+            cids = cids.concat("," + cid.toString());
+            if (cids.indexOf(",") == 0) {
+                userMapper.attentionTopic(uid, cids.substring(1, cids.length()));
+            } else {
+                userMapper.attentionTopic(uid, cids);
+            }
+        }
+
     }
 }
